@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		B111C40E289ECBE000F0D0DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111C40D289ECBE000F0D0DD /* AppDelegate.swift */; };
 		B111C410289ECBE000F0D0DD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111C40F289ECBE000F0D0DD /* SceneDelegate.swift */; };
-		B111C412289ECBE000F0D0DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111C411289ECBE000F0D0DD /* ViewController.swift */; };
+		B111C412289ECBE000F0D0DD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111C411289ECBE000F0D0DD /* HomeViewController.swift */; };
 		B111C415289ECBE000F0D0DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B111C413289ECBE000F0D0DD /* Main.storyboard */; };
 		B111C417289ECBE100F0D0DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B111C416289ECBE100F0D0DD /* Assets.xcassets */; };
 		B111C41A289ECBE100F0D0DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B111C418289ECBE100F0D0DD /* LaunchScreen.storyboard */; };
+		B15C3E8428A0124300684784 /* SelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15C3E8328A0124300684784 /* SelectedViewController.swift */; };
+		B15C3E8628A0164500684784 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15C3E8528A0164500684784 /* RangeSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B111C40A289ECBDF00F0D0DD /* Asif_Mimi_Rabbi_Video_Treamer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Asif_Mimi_Rabbi_Video_Treamer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B111C40D289ECBE000F0D0DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B111C40F289ECBE000F0D0DD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B111C411289ECBE000F0D0DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B111C411289ECBE000F0D0DD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B111C414289ECBE000F0D0DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B111C416289ECBE100F0D0DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B111C419289ECBE100F0D0DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B111C41B289ECBE100F0D0DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B15C3E8328A0124300684784 /* SelectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedViewController.swift; sourceTree = "<group>"; };
+		B15C3E8528A0164500684784 /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +60,57 @@
 		B111C40C289ECBDF00F0D0DD /* Asif_Mimi_Rabbi_Video_Treamer */ = {
 			isa = PBXGroup;
 			children = (
-				B111C40D289ECBE000F0D0DD /* AppDelegate.swift */,
-				B111C40F289ECBE000F0D0DD /* SceneDelegate.swift */,
-				B111C411289ECBE000F0D0DD /* ViewController.swift */,
-				B111C413289ECBE000F0D0DD /* Main.storyboard */,
+				B15C3E8028A011FE00684784 /* Delegates */,
+				B15C3E7F28A011D000684784 /* UI */,
+				B15C3E7E28A011AF00684784 /* StoryBoards */,
 				B111C416289ECBE100F0D0DD /* Assets.xcassets */,
-				B111C418289ECBE100F0D0DD /* LaunchScreen.storyboard */,
 				B111C41B289ECBE100F0D0DD /* Info.plist */,
+				B15C3E8528A0164500684784 /* RangeSlider.swift */,
 			);
 			path = Asif_Mimi_Rabbi_Video_Treamer;
+			sourceTree = "<group>";
+		};
+		B15C3E7E28A011AF00684784 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				B111C413289ECBE000F0D0DD /* Main.storyboard */,
+				B111C418289ECBE100F0D0DD /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		B15C3E7F28A011D000684784 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B15C3E8228A0122500684784 /* selectedViewController */,
+				B15C3E8128A0121600684784 /* homeViewController */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		B15C3E8028A011FE00684784 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				B111C40D289ECBE000F0D0DD /* AppDelegate.swift */,
+				B111C40F289ECBE000F0D0DD /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		B15C3E8128A0121600684784 /* homeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B111C411289ECBE000F0D0DD /* HomeViewController.swift */,
+			);
+			path = homeViewController;
+			sourceTree = "<group>";
+		};
+		B15C3E8228A0122500684784 /* selectedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B15C3E8328A0124300684784 /* SelectedViewController.swift */,
+			);
+			path = selectedViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +184,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B111C412289ECBE000F0D0DD /* ViewController.swift in Sources */,
+				B111C412289ECBE000F0D0DD /* HomeViewController.swift in Sources */,
+				B15C3E8628A0164500684784 /* RangeSlider.swift in Sources */,
 				B111C40E289ECBE000F0D0DD /* AppDelegate.swift in Sources */,
 				B111C410289ECBE000F0D0DD /* SceneDelegate.swift in Sources */,
+				B15C3E8428A0124300684784 /* SelectedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
