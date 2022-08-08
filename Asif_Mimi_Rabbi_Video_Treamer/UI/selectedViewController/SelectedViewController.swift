@@ -96,6 +96,10 @@ class SelectedViewController: UIViewController {
         self.cropVideo(sourceURL1: url, startTime: start!, endTime: end!)
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func closeWindow(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 //Subclass of VideoMainViewController
