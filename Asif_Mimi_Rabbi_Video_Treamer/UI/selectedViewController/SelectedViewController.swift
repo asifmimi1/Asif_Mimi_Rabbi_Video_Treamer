@@ -35,8 +35,13 @@ class SelectedViewController: UIViewController {
     @IBOutlet weak var videoPlayerView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var imageFrameView: UIView!
+    @IBOutlet weak var playPauseBtnHolderView: UIView!
+    
+    @IBOutlet weak var startTimeLbl: UILabel!
+    @IBOutlet weak var endTimeLbl: UILabel!
     
     @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var playPauseBtn: UIButton!
     
     var startTimestr = ""
     var endTimestr = ""
@@ -73,6 +78,9 @@ class SelectedViewController: UIViewController {
     //Loading Views
     func loadViews() {
         
+        playPauseBtnHolderView.layer.cornerRadius = playPauseBtnHolderView.frame.size.width/2
+        playPauseBtn.setTitle("", for: .normal)
+        
         saveBtn.layer.cornerRadius = 5.0
         saveBtn.isHidden = false
         containerView.isHidden = true
@@ -93,12 +101,23 @@ class SelectedViewController: UIViewController {
     @IBAction func trimVideoBtn(_ sender: UIButton) {
         let start = Float(startTimestr)
         let end = Float(endTimestr)
+        
         self.cropVideo(sourceURL1: url, startTime: start!, endTime: end!)
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func closeWindow(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func playPauseBtn(_ sender: UIButton){
+        if isPlaying {
+            self.player.play()
+        }
+        else {
+            self.player.pause()
+        }
+        isPlaying = !isPlaying
     }
 }
 
@@ -214,6 +233,12 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         
         startTimestr = "\(rangSlider.lowerValue)"
         endTimestr = "\(rangSlider.upperValue)"
+        
+        print("Start Time: =====",startTimestr)
+        print("End Time: ====", endTimestr)
+        
+        startTimeLbl.text = "\(startTimestr.prefix(4))" + "s"
+        endTimeLbl.text = "\(endTimestr.prefix(4))" + "s"
         
         print(rangSlider.lowerLayerSelected)
         
