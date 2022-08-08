@@ -53,7 +53,6 @@
                             <constraint firstItem="0Pc-dB-Zmk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fki-Ck-ppf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="sda-JA-5na"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

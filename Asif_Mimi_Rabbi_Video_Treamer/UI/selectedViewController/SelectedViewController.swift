@@ -8,16 +8,12 @@
 import UIKit
 import AVFoundation
 import MobileCoreServices
-import CoreMedia
-import AssetsLibrary
 import Photos
 
 class SelectedViewController: UIViewController {
     
     var isPlaying = true
     var isSliderEnd = true
-    var playbackTimeCheckerTimer: Timer! = nil
-    let playerObserver: Any? = nil
     
     let exportSession: AVAssetExportSession! = nil
     var player: AVPlayer!
@@ -32,6 +28,7 @@ class SelectedViewController: UIViewController {
     var thumbtimeSeconds: Int!
     
     var videoPlaybackPosition: CGFloat = 0.0
+    
     var cache:NSCache<AnyObject, AnyObject>!
     var rangSlider: RangeSlider! = nil
     
@@ -40,29 +37,29 @@ class SelectedViewController: UIViewController {
     @IBOutlet weak var imageFrameView: UIView!
     
     @IBOutlet weak var saveBtn: UIButton!
+    
     var startTimestr = ""
     var endTimestr = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadViews()
         
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        self.loadViews()
         
         if asset != nil {
             
             thumbTime = asset.duration
-            thumbtimeSeconds      = Int(CMTimeGetSeconds(thumbTime))
+            thumbtimeSeconds = Int(CMTimeGetSeconds(thumbTime))
             
             self.viewAfterVideoIsPicked()
             
             let item:AVPlayerItem = AVPlayerItem(asset: asset)
-            player                = AVPlayer(playerItem: item)
-            playerLayer           = AVPlayerLayer(player: player)
-            playerLayer.frame     = videoPlayerView.bounds
+            player = AVPlayer(playerItem: item)
+            playerLayer = AVPlayerLayer(player: player)
+            playerLayer.frame = videoPlayerView.bounds
             
             playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            player.actionAtItemEnd   = AVPlayer.ActionAtItemEnd.none
+            player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapOnvideoPlayerView))
             self.videoPlayerView.addGestureRecognizer(tap)
@@ -76,14 +73,13 @@ class SelectedViewController: UIViewController {
     //Loading Views
     func loadViews() {
         
-        saveBtn.layer.cornerRadius   = 5.0
-        saveBtn.isHidden         = false
+        saveBtn.layer.cornerRadius = 5.0
+        saveBtn.isHidden = false
         containerView.isHidden = true
         
-        
         imageFrameView.layer.cornerRadius = 5.0
-        imageFrameView.layer.borderWidth  = 1.0
-        imageFrameView.layer.borderColor  = UIColor.white.cgColor
+        imageFrameView.layer.borderWidth = 1.0
+        imageFrameView.layer.borderColor = UIColor.white.cgColor
         imageFrameView.layer.masksToBounds = true
         
         player = AVPlayer()
@@ -95,10 +91,10 @@ class SelectedViewController: UIViewController {
     
     //Action for crop video
     @IBAction func trimVideoBtn(_ sender: UIButton) {
-            let start = Float(startTimestr)
-            let end   = Float(endTimestr)
-            self.cropVideo(sourceURL1: url, startTime: start!, endTime: end!)
-//        self.dismiss(animated: true, completion: nil)
+        let start = Float(startTimestr)
+        let end = Float(endTimestr)
+        self.cropVideo(sourceURL1: url, startTime: start!, endTime: end!)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -114,13 +110,12 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         self.createImageFrames()
         
         //unhide buttons and view after video selection
-        saveBtn.isHidden         = false
+        saveBtn.isHidden = false
         containerView.isHidden = false
-        
         
         isSliderEnd = true
         startTimestr = "\(0.0)"
-        endTimestr   = "\(thumbtimeSeconds!)"
+        endTimestr = "\(thumbtimeSeconds!)"
         self.createrangSlider()
     }
     
@@ -138,18 +133,18 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
     //MARK: CreatingFrameImages
     func createImageFrames() {
         //creating assets
-        let assetImgGenerate : AVAssetImageGenerator    = AVAssetImageGenerator(asset: asset)
+        let assetImgGenerate : AVAssetImageGenerator = AVAssetImageGenerator(asset: asset)
         assetImgGenerate.appliesPreferredTrackTransform = true
-        assetImgGenerate.requestedTimeToleranceAfter    = CMTime.zero;
-        assetImgGenerate.requestedTimeToleranceBefore   = CMTime.zero;
+        assetImgGenerate.requestedTimeToleranceAfter = CMTime.zero;
+        assetImgGenerate.requestedTimeToleranceBefore = CMTime.zero;
         
         
         assetImgGenerate.appliesPreferredTrackTransform = true
         let thumbTime: CMTime = asset.duration
-        let thumbtimeSeconds  = Int(CMTimeGetSeconds(thumbTime))
-        let maxLength         = "\(thumbtimeSeconds)" as NSString
+        let thumbtimeSeconds = Int(CMTimeGetSeconds(thumbTime))
+        let maxLength = "\(thumbtimeSeconds)" as NSString
         
-        let thumbAvg  = thumbtimeSeconds/6
+        let thumbAvg = thumbtimeSeconds/6
         var startTime = 1
         var startXPosition:CGFloat = 0.0
         
@@ -159,15 +154,13 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
             let imageButton = UIButton()
             let xPositionForEach = CGFloat(self.imageFrameView.frame.width)/6
             imageButton.frame = CGRect(x: CGFloat(startXPosition), y: CGFloat(0), width: xPositionForEach, height: CGFloat(self.imageFrameView.frame.height))
+            
             do {
                 let time:CMTime = CMTimeMakeWithSeconds(Float64(startTime),preferredTimescale: Int32(maxLength.length))
                 let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
                 let image = UIImage(cgImage: img)
                 imageButton.setImage(image, for: .normal)
-            }
-            catch
-                _ as NSError
-            {
+            } catch _ as NSError {
                 print("Image generation failed with error (error)")
             }
             
@@ -216,7 +209,7 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         }
         
         startTimestr = "\(rangSlider.lowerValue)"
-        endTimestr   = "\(rangSlider.upperValue)"
+        endTimestr = "\(rangSlider.upperValue)"
         
         print(rangSlider.lowerLayerSelected)
         
@@ -242,18 +235,20 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
     
     //Trim Video Function
     func cropVideo(sourceURL1: NSURL, startTime:Float, endTime:Float) {
+        
         let manager = FileManager.default
         
         guard let documentDirectory = try? manager.url(for: .documentDirectory,
                                                           in: .userDomainMask,
                                                           appropriateFor: nil,
                                                           create: true) else {return}
-        guard let mediaType         = "mp4" as? String else {return}
+        guard let mediaType = ("mp4" as? String) else {return}
         guard (sourceURL1 as? NSURL) != nil else {return}
         
         if mediaType == kUTTypeMovie as String || mediaType == "mp4" as String {
             
             let length = Float(asset.duration.value) / Float(asset.duration.timescale)
+            
             print("video length: \(length) seconds")
             
             let start = startTime
@@ -292,21 +287,27 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
                     print("cancelled \(String(describing: exportSession.error))")
                     
                 default: break
-                }}}}
+                }
+                
+            }
+            
+        }
+        
+    }
     
     //Save Video to Photos Library
     func saveToCameraRoll(URL: NSURL!) {
         PHPhotoLibrary.shared().performChanges({
             PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL as URL) }) { saved, error in
                 
-            if saved {
-                let alertController = UIAlertController(title: "Cropped video was saved successfully", message: nil, preferredStyle: .alert)
-                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertController.addAction(defaultAction)
-                self.present(alertController, animated: true, completion: nil)
+                if saved {
+                    let alertController = UIAlertController(title: "Cropped video was saved successfully", message: nil, preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertController.addAction(defaultAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+                
             }
-            
-        }
         
     }
 }

@@ -7,10 +7,6 @@
 
 import UIKit
 import AVFoundation
-import MobileCoreServices
-import CoreMedia
-import AssetsLibrary
-import Photos
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
@@ -38,7 +34,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         picker.dismiss(animated: true, completion: nil)
         
         let url = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL
-        let asset   = AVURLAsset.init(url: url! as URL)
+        let asset = AVURLAsset.init(url: url! as URL)
         
         let mainstoryBoard = UIStoryboard(name:"Main", bundle: nil)
         let viewcontroller = mainstoryBoard.instantiateViewController(withIdentifier:"SelectedViewController") as! SelectedViewController
