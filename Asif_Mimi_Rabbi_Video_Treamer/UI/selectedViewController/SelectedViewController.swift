@@ -58,7 +58,7 @@ class SelectedViewController: UIViewController {
             playerLayer = AVPlayerLayer(player: player)
             playerLayer.frame = videoPlayerView.bounds
             
-            playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            playerLayer.videoGravity = AVLayerVideoGravity.resizeAspect
             player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapOnvideoPlayerView))
@@ -153,7 +153,7 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         var startXPosition:CGFloat = 0.0
         
         //loop for 6 number of frames
-        for _ in 0...5 {
+        for _ in 0...7 {
             
             let imageButton = UIButton()
             let xPositionForEach = CGFloat(self.imageFrameView.frame.width)/6
