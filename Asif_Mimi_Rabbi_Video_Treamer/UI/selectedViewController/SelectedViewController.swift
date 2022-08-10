@@ -56,6 +56,8 @@ class SelectedViewController: UIViewController {
             thumbTime = asset.duration
             thumbtimeSeconds = Int(CMTimeGetSeconds(thumbTime))
             
+            endTimeLbl.text = "\(String(Double(thumbtimeSeconds)).prefix(4))" + " s"
+            
             self.viewAfterVideoIsPicked()
             
             let item:AVPlayerItem = AVPlayerItem(asset: asset)
@@ -75,7 +77,6 @@ class SelectedViewController: UIViewController {
         }
     }
     
-    //Loading Views
     func loadViews() {
         
         playPauseBtnHolderView.layer.cornerRadius = playPauseBtnHolderView.frame.size.width/2
@@ -94,16 +95,17 @@ class SelectedViewController: UIViewController {
         
         //Allocating NsCahe for temp storage
         self.cache = NSCache()
+        
     }
     
     
-    //Action for crop video
     @IBAction func trimVideoBtn(_ sender: UIButton) {
         let start = Float(startTimestr)
         let end = Float(endTimestr)
         
         self.cropVideo(sourceURL1: url, startTime: start!, endTime: end!)
         self.dismiss(animated: true, completion: nil)
+        Toast.sharedInstance.isToastAvailable = true
     }
     
     @IBAction func closeWindow(_ sender: UIButton) {
@@ -125,14 +127,13 @@ class SelectedViewController: UIViewController {
 extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     func viewAfterVideoIsPicked() {
-        //Rmoving player if alredy exists
+        //removing player
         if(playerLayer != nil) {
             playerLayer.removeFromSuperlayer()
         }
         
         self.createImageFrames()
         
-        //unhide buttons and view after video selection
         saveBtn.isHidden = false
         containerView.isHidden = false
         
@@ -197,7 +198,7 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
     
     //Create range slider
     func createrangSlider() {
-        //Remove slider if already present
+        //remove slider
         let subViews = self.containerView.subviews
         for subview in subViews{
             if subview.tag == 1000 {
@@ -221,7 +222,6 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
     
     //MARK: rangSlider Delegate
     @objc func rangSliderValueChanged(_ rangSlider: RangeSlider) {
-        //        self.player.pause()
         
         if(isSliderEnd == true) {
             rangSlider.minimumValue = 0.0
@@ -237,8 +237,8 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         print("Start Time: =====",startTimestr)
         print("End Time: ====", endTimestr)
         
-        startTimeLbl.text = "\(startTimestr.prefix(4))" + "s"
-        endTimeLbl.text = "\(endTimestr.prefix(4))" + "s"
+        startTimeLbl.text = "\(startTimestr.prefix(4))" + " s"
+        endTimeLbl.text = "\(endTimestr.prefix(4))" + " s"
         
         print(rangSlider.lowerLayerSelected)
         
@@ -284,9 +284,9 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
             let end = endTime
             print(documentDirectory)
             var outputURL = documentDirectory.appendingPathComponent("output")
+            
             do {
                 try manager.createDirectory(at: outputURL, withIntermediateDirectories: true, attributes: nil)
-                //let name = hostent.newName()
                 outputURL = outputURL.appendingPathComponent("1.mp4")
             }catch let error {
                 print(error)
@@ -309,12 +309,13 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
                 case .completed:
                     print("exported at \(outputURL)")
                     self.saveToCameraRoll(URL: outputURL as NSURL?)
+                    Toast.sharedInstance.message = "Exported successfully"
                 case .failed:
                     print("failed \(String(describing: exportSession.error))")
-                    
+                    Toast.sharedInstance.message = "Exportation failed"
                 case .cancelled:
                     print("cancelled \(String(describing: exportSession.error))")
-                    
+                    Toast.sharedInstance.message = "Exportation cancelled"
                 default: break
                 }
                 
@@ -340,3 +341,4 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         
     }
 }
+
