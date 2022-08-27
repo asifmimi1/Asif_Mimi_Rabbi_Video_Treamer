@@ -13,6 +13,10 @@
 		B111C415289ECBE000F0D0DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B111C413289ECBE000F0D0DD /* Main.storyboard */; };
 		B111C417289ECBE100F0D0DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B111C416289ECBE100F0D0DD /* Assets.xcassets */; };
 		B111C41A289ECBE100F0D0DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B111C418289ECBE100F0D0DD /* LaunchScreen.storyboard */; };
+		B118BBB628BA895C00DB491A /* TextOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B118BBB528BA895B00DB491A /* TextOverlay.swift */; };
+		B118BBBB28BA9D4B00DB491A /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B118BBB928BA9D4B00DB491A /* EmojiCollectionViewCell.swift */; };
+		B118BBBC28BA9D4B00DB491A /* EmojiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B118BBBA28BA9D4B00DB491A /* EmojiCollectionViewCell.xib */; };
+		B118BBBF28BAA08600DB491A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B118BBBE28BAA08600DB491A /* Extensions.swift */; };
 		B15C3E8428A0124300684784 /* SelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15C3E8328A0124300684784 /* SelectedViewController.swift */; };
 		B15C3E8628A0164500684784 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15C3E8528A0164500684784 /* RangeSlider.swift */; };
 /* End PBXBuildFile section */
@@ -26,6 +30,10 @@
 		B111C416289ECBE100F0D0DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B111C419289ECBE100F0D0DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B111C41B289ECBE100F0D0DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B118BBB528BA895B00DB491A /* TextOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextOverlay.swift; sourceTree = "<group>"; };
+		B118BBB928BA9D4B00DB491A /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		B118BBBA28BA9D4B00DB491A /* EmojiCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmojiCollectionViewCell.xib; sourceTree = "<group>"; };
+		B118BBBE28BAA08600DB491A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B15C3E8328A0124300684784 /* SelectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedViewController.swift; sourceTree = "<group>"; };
 		B15C3E8528A0164500684784 /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,6 +78,31 @@
 			path = Asif_Mimi_Rabbi_Video_Treamer;
 			sourceTree = "<group>";
 		};
+		B118BBB728BA9D2600DB491A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B118BBB828BA9D2C00DB491A /* EmojiCollectionViewCell */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		B118BBB828BA9D2C00DB491A /* EmojiCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B118BBB928BA9D4B00DB491A /* EmojiCollectionViewCell.swift */,
+				B118BBBA28BA9D4B00DB491A /* EmojiCollectionViewCell.xib */,
+			);
+			path = EmojiCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		B118BBBD28BAA07400DB491A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B118BBBE28BAA08600DB491A /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		B15C3E7E28A011AF00684784 /* StoryBoards */ = {
 			isa = PBXGroup;
 			children = (
@@ -82,8 +115,10 @@
 		B15C3E7F28A011D000684784 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				B118BBB728BA9D2600DB491A /* Cell */,
 				B15C3E8228A0122500684784 /* selectedViewController */,
 				B15C3E8128A0121600684784 /* homeViewController */,
+				B118BBB528BA895B00DB491A /* TextOverlay.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -91,6 +126,7 @@
 		B15C3E8028A011FE00684784 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				B118BBBD28BAA07400DB491A /* Extensions */,
 				B111C40D289ECBE000F0D0DD /* AppDelegate.swift */,
 				B111C40F289ECBE000F0D0DD /* SceneDelegate.swift */,
 			);
@@ -174,6 +210,7 @@
 				B111C41A289ECBE100F0D0DD /* LaunchScreen.storyboard in Resources */,
 				B111C417289ECBE100F0D0DD /* Assets.xcassets in Resources */,
 				B111C415289ECBE000F0D0DD /* Main.storyboard in Resources */,
+				B118BBBC28BA9D4B00DB491A /* EmojiCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,9 +221,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B118BBBB28BA9D4B00DB491A /* EmojiCollectionViewCell.swift in Sources */,
 				B111C412289ECBE000F0D0DD /* HomeViewController.swift in Sources */,
 				B15C3E8628A0164500684784 /* RangeSlider.swift in Sources */,
+				B118BBBF28BAA08600DB491A /* Extensions.swift in Sources */,
 				B111C40E289ECBE000F0D0DD /* AppDelegate.swift in Sources */,
+				B118BBB628BA895C00DB491A /* TextOverlay.swift in Sources */,
 				B111C410289ECBE000F0D0DD /* SceneDelegate.swift in Sources */,
 				B15C3E8428A0124300684784 /* SelectedViewController.swift in Sources */,
 			);

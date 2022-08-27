@@ -32,6 +32,10 @@ class SelectedViewController: UIViewController {
     var cache:NSCache<AnyObject, AnyObject>!
     var rangSlider: RangeSlider! = nil
     
+    let composition = AVMutableComposition()
+    
+    var arrayImage = ["angry_emoji", "confuse_emoji", "crying_emoji", "sad_emoji", "thinking_emoji", "tounge_emoji", "angry_emoji", "confuse_emoji", "crying_emoji", "sad_emoji"]
+    
     @IBOutlet weak var videoPlayerView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var imageFrameView: UIView!
@@ -43,6 +47,8 @@ class SelectedViewController: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var playPauseBtn: UIButton!
     
+    @IBOutlet weak var StickerCollectionView: UICollectionView!
+    
     var startTimestr = ""
     var endTimestr = ""
     
@@ -50,6 +56,9 @@ class SelectedViewController: UIViewController {
         super.viewDidLoad()
         
         self.loadViews()
+        
+        StickerCollectionView.collectionViewLayout = layout()
+        StickerCollectionView.register(EmojiCollectionViewCell.nib(), forCellWithReuseIdentifier: EmojiCollectionViewCell.identifier)
         
         if asset != nil {
             
@@ -75,6 +84,124 @@ class SelectedViewController: UIViewController {
             videoPlayerView.layer.addSublayer(playerLayer)
             player.play()
         }
+    }
+    
+    func layout() -> UICollectionViewCompositionalLayout {
+        
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, environment -> NSCollectionLayoutSection? in
+            
+            if sectionIndex == 0 {
+                let itemSize = NSCollectionLayoutSize (
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(50)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets.leading = 20
+                
+                let groupSize = NSCollectionLayoutSize (
+                    widthDimension: .fractionalWidth(0.2),
+                    heightDimension: .absolute(60)
+                )
+                
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                
+                group.interItemSpacing = .fixed(1)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                
+                section.interGroupSpacing = 0
+                
+                section.orthogonalScrollingBehavior = .continuous
+                
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(10))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerItemSize,
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+                section.boundarySupplementaryItems = [headerItem]
+                
+                return section
+                
+            } else if sectionIndex == 1 {
+                
+                let itemSize = NSCollectionLayoutSize (
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(50)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets.leading = 20
+                
+                let groupSize = NSCollectionLayoutSize (
+                    widthDimension: .fractionalWidth(0.2),
+                    heightDimension: .absolute(60)
+                )
+                
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                
+                group.interItemSpacing = .fixed(1)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                
+                section.interGroupSpacing = 0
+                
+                section.orthogonalScrollingBehavior = .continuous
+                
+                let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(10))
+                let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerItemSize,
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+                section.boundarySupplementaryItems = [headerItem]
+                
+                return section
+                
+            }
+            
+            let itemSize = NSCollectionLayoutSize (
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(200)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize (
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(200)
+            )
+            
+            let columns = environment.container.contentSize.width > 500 ? 2 : 1
+            
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
+            
+            if columns > 1 {
+                group.contentInsets.leading = 20
+                group.contentInsets.trailing = 20
+            }
+            
+            let section = NSCollectionLayoutSection(group: group)
+            
+            section.interGroupSpacing = 20
+            section.contentInsets.bottom = 20
+            
+            let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(10))
+            let headerItem = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerItemSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            section.boundarySupplementaryItems = [headerItem]
+            
+            
+            return section
+            
+        }
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 10
+        layout.configuration = config
+        
+        return layout
     }
     
     func loadViews() {
@@ -104,6 +231,7 @@ class SelectedViewController: UIViewController {
         let end = Float(endTimestr)
         
         self.cropVideo(sourceURL1: url, startTime: start!, endTime: end!)
+        
         self.dismiss(animated: true, completion: nil)
         Toast.sharedInstance.isToastAvailable = true
     }
@@ -262,6 +390,105 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
         }
     }
     
+    private func resolutionForLocalVideo(url: URL) -> CGSize? {
+        guard let track = AVURLAsset(url: url).tracks(withMediaType: AVMediaType.video).first else { return nil }
+       let size = track.naturalSize.applying(track.preferredTransform)
+       return CGSize(width: abs(size.width), height: abs(size.height))
+    }
+    func initAspectRatioOfVideo(with fileURL: URL) -> Double {
+      let resolution = resolutionForLocalVideo(url: fileURL)
+      guard let width = resolution?.width, let height = resolution?.height else {
+         return 0
+      }
+      return Double(height / width)
+    }
+
+    func textOverlay(url: URL) {
+        let vidAsset = AVURLAsset(url: url, options: nil)
+
+        // get video track
+        let vtrack =  vidAsset.tracks(withMediaType: AVMediaType.video)
+        
+        let videoTrack: AVAssetTrack = vtrack[0]
+        let size = videoTrack.naturalSize
+        
+        let resolution = resolutionForLocalVideo(url: url)
+        guard let width = resolution?.width, let height = resolution?.height else { return }
+        
+        let titleLayer = CATextLayer()
+        titleLayer.backgroundColor = UIColor.white.cgColor
+        titleLayer.string = "Dummy text hjh hbbbkjhbk bhbjbkjhbkhjb hbkhbkjhbjk bhbkhbu"
+        titleLayer.font = UIFont(name: "Helvetica", size: 28)
+        titleLayer.shadowOpacity = 0.5
+        titleLayer.alignmentMode = CATextLayerAlignmentMode.center
+        titleLayer.frame = CGRect(x: 0, y: 50, width: width, height: height / 6)
+
+
+        let videolayer = CALayer()
+        videolayer.frame = CGRect(x: 0, y: 0, width: width, height: height)
+
+        let parentlayer = CALayer()
+        parentlayer.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        parentlayer.addSublayer(videolayer)
+        parentlayer.addSublayer(titleLayer)
+
+        let layercomposition = AVMutableVideoComposition()
+        layercomposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
+        layercomposition.renderSize = size
+        layercomposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videolayer, in: parentlayer)
+
+        // instruction for watermark
+        let instruction = AVMutableVideoCompositionInstruction()
+        instruction.timeRange = CMTimeRangeMake(start: CMTime.zero, duration: composition.duration)
+        let videotrack = composition.tracks(withMediaType: AVMediaType.video)[0] as AVAssetTrack
+        let layerinstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videotrack)
+        instruction.layerInstructions = NSArray(object: layerinstruction) as [AnyObject] as! [AVVideoCompositionLayerInstruction]
+        layercomposition.instructions = NSArray(object: instruction) as [AnyObject] as! [AVVideoCompositionInstructionProtocol]
+
+        //  create new file to receive data
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir = dirPaths[0] as NSString
+        let movieFilePath = docsDir.appendingPathComponent("result.mov")
+        let movieDestinationUrl = NSURL(fileURLWithPath: movieFilePath)
+
+        // use AVAssetExportSession to export video
+        let assetExport = AVAssetExportSession(asset: composition, presetName:AVAssetExportPresetHighestQuality)
+        assetExport?.outputFileType = AVFileType.mov
+        assetExport?.videoComposition = layercomposition
+
+        // Check exist and remove old file
+        FileManager.default.removeItemIfExisted(movieDestinationUrl as URL)
+
+        assetExport?.outputURL = movieDestinationUrl as URL
+        assetExport?.exportAsynchronously(completionHandler: {
+            switch assetExport!.status {
+            case AVAssetExportSession.Status.failed:
+                print("failed")
+                print(assetExport?.error ?? "unknown error")
+            case AVAssetExportSession.Status.cancelled:
+                print("cancelled")
+                print(assetExport?.error ?? "unknown error")
+            default:
+                print("Movie complete")
+
+//                self.myurl = movieDestinationUrl as URL
+                self.saveToCameraRoll(URL: movieDestinationUrl as NSURL)
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: movieDestinationUrl as URL)
+                }) { saved, error in
+                    if saved {
+                        print("Saved")
+                    }
+                }
+            }
+        })
+
+    }
+    
+    
+    
+    
+    
     //Trim Video Function
     func cropVideo(sourceURL1: NSURL, startTime:Float, endTime:Float) {
         
@@ -342,3 +569,53 @@ extension SelectedViewController: UIImagePickerControllerDelegate,UINavigationCo
     }
 }
 
+
+
+extension SelectedViewController: UICollectionViewDataSource{
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if section == 0 {
+            return arrayImage.count
+        }else if section == 1{
+            return arrayImage.count
+        }
+        
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.section == 0{
+            let item = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.identifier, for: indexPath) as! EmojiCollectionViewCell
+            item.reload(imageName: arrayImage[indexPath.row])
+
+            return item
+        }else if indexPath.section == 1{
+            let item = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.identifier, for: indexPath) as! EmojiCollectionViewCell
+            item.reload(imageName: arrayImage[indexPath.row])
+
+            return item
+        }
+        
+        let item = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        item.backgroundColor = .green
+        return item
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        
+//        let cell = collectionView.dequeueReusableSupplementaryView(
+//            ofKind: kind,
+//            withReuseIdentifier: HeaderCollectionReusableView.identifier,
+//            for: indexPath
+//        ) as! HeaderCollectionReusableView
+//        
+//        cell.setUp(leftTitleLbl: arrayHeader[indexPath.section])
+//        return cell
+//    }
+}
